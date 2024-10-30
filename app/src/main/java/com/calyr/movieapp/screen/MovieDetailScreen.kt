@@ -1,5 +1,6 @@
 package com.calyr.movieapp.screen
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -11,10 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.calyr.movieapp.Movie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetailScreen(onBackPressed: () -> Unit) {
+fun MovieDetailScreen(onBackPressed: () -> Unit, movie: Movie) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -35,12 +37,18 @@ fun MovieDetailScreen(onBackPressed: () -> Unit) {
             )
         },
         content = {
-                paddingValues -> MovieDetailScreenContent( modifier = Modifier.padding(paddingValues))
+                paddingValues -> MovieDetailScreenContent( modifier = Modifier.padding(paddingValues),
+                    movie = movie)
         }
     )
 }
 
 @Composable
-fun MovieDetailScreenContent(modifier: Modifier) {
-    Text(text = "Pantalla del detalle")
+fun MovieDetailScreenContent(modifier: Modifier, movie: Movie) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(text = movie.title)
+        Text(text = movie.description)
+    }
 }
