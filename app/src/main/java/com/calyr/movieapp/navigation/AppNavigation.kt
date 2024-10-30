@@ -8,8 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.calyr.movieapp.screen.MovieDetailScreen
 import com.calyr.movieapp.screen.MoviesScreen
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Composable
 fun AppNavigation() {
@@ -22,14 +20,14 @@ fun AppNavigation() {
         composable(Screens.MoviesScreen.route) {
             MoviesScreen(
                 onClick = {
-                   movie -> navController.navigate("${Screens.MovieDetailScreen.route}/${Json.encodeToString(movie)}")
+                   movieId -> navController.navigate("${Screens.MovieDetailScreen.route}/${movieId}")
                 }
             )
         }
         composable(
-            route = "${Screens.MovieDetailScreen.route}/{movie}",
+            route = "${Screens.MovieDetailScreen.route}/{movieId}",
             arguments = listOf(
-                navArgument("movie") {
+                navArgument("movieId") {
                     type = NavType.StringType
                 }
             )
@@ -38,7 +36,7 @@ fun AppNavigation() {
                 onBackPressed = {
                     navController.popBackStack()
                 },
-                movie = Json.decodeFromString(it.arguments?.getString("movie")?:"")
+                movieId = it.arguments?.getString("movieId")?:""
             )
         }
     }
