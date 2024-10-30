@@ -43,3 +43,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 calyr-android-library = { id = "calyr.android.library", version = "unspecified"}
+calyr-jvm-library = { id = "calyr.jvm.library", version = "unspecified"}

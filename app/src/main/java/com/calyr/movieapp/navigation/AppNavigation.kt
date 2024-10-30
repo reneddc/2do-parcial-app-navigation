@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.calyr.movieapp.Movie
 import com.calyr.movieapp.screen.MovieDetailScreen
 import com.calyr.movieapp.screen.MoviesScreen
 import kotlinx.serialization.encodeToString

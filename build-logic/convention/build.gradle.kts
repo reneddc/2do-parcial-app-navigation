@@ -36,5 +36,9 @@ gradlePlugin {
             id = "calyr.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "calyr.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }

@@ -12,11 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.calyr.movieapp.Movie
+import com.calyr.domain.Movie
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetailScreen(onBackPressed: () -> Unit, movie: Movie) {
+fun MovieDetailScreen(onBackPressed: () -> Unit, movie: com.calyr.domain.Movie) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -44,7 +44,7 @@ fun MovieDetailScreen(onBackPressed: () -> Unit, movie: Movie) {
 }
 
 @Composable
-fun MovieDetailScreenContent(modifier: Modifier, movie: Movie) {
+fun MovieDetailScreenContent(modifier: Modifier, movie: com.calyr.domain.Movie) {
     Column(
         modifier = modifier
     ) {
