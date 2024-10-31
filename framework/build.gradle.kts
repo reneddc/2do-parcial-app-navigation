@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.calyr.android.library)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
