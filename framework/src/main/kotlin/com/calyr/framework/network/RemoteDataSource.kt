@@ -3,6 +3,7 @@ package com.calyr.framework.network
 import com.calyr.data.IRemoteDataSource
 import com.calyr.data.NetworkResult
 import com.calyr.domain.Movie
+import com.calyr.framework.toMovie
 
 class RemoteDataSource(
     val retrofit: RetrofitBuilder

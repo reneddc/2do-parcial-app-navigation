@@ -12,6 +12,13 @@ dependencies {
     implementation(libs.retrofit)
     //networking bundle
     implementation(libs.bundles.networking)
+
+    //local bundle room
+    implementation(libs.bundles.local)
+    annotationProcessor(libs.room.compiler)
+    ksp(libs.room.compiler)
+    testImplementation(libs.room.testing)
+
     implementation(project(":data"))
     implementation(project(":domain"))
 }
