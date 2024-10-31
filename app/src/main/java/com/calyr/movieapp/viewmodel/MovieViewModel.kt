@@ -5,6 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.calyr.data.MovieRepository
 import com.calyr.domain.Movie
+import com.calyr.framework.network.RemoteDataSource
+import com.calyr.framework.network.RetrofitBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class MovieViewModel : ViewModel() {
 
     sealed class MovieState {
@@ -18,7 +25,17 @@ class MovieViewModel : ViewModel() {
     private val _state = MutableLiveData<MovieState>()
 
     fun fetchData() {
-        _state.value = MovieState.Successful( MovieRepository().obtainMovies() )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val movies = MovieRepository(
+                RemoteDataSource(
+                    RetrofitBuilder
+                )
+            ).obtainMovies()
+            withContext(Dispatchers.Main) {
+                _state.value = MovieState.Successful(movies)
+            }
+        }
     }
 
 }

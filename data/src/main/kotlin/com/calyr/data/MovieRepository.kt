@@ -2,9 +2,29 @@ package com.calyr.data
 
 import com.calyr.domain.Movie
 
-class MovieRepository {
+class MovieRepository(
+    val remoteDataSource: IRemoteDataSource
+) {
 
-    fun obtainMovies(): List<Movie> {
+    suspend fun obtainMovies(): List<Movie> {
+
+        //consultar al servicio web
+        val moviesRemote = remoteDataSource.fetchData()
+
+        //Verificar el estado final del consumo de API
+        when( moviesRemote) {
+            is NetworkResult.Success -> {
+                //Actualizar la base de datos
+            }
+            is NetworkResult.Error -> {
+                //Registrar un log en Sentry
+            }
+        }
+
+        //consultar a la base de datos para recuperar la información
+
+        //retornar la informacion de la base de datos
+
         return listOf(
             Movie(
                 id = "1",
