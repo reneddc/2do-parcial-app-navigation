@@ -14,8 +14,8 @@ class RemoteDataSource(
         if (response.isSuccessful) {
             val networkResponse = response.body()
             return NetworkResult.Success(
-                networkResponse!!.results.map {
-                    it.toMovie()
+                networkResponse!!.results.withIndex().map {
+                    (index, value) -> value.toMovie(index)
                 }
             )
 

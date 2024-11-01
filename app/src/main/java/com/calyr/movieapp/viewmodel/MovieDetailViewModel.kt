@@ -7,39 +7,38 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.calyr.data.MovieRepository
 import com.calyr.domain.Movie
+import com.calyr.framework.local.LocalDataSource
 import com.calyr.framework.network.RemoteDataSource
 import com.calyr.framework.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.calyr.framework.local.LocalDataSource
-class MovieViewModel : ViewModel() {
 
-    sealed class MovieState {
-        object Loading : MovieState()
-        class Error(val message: String) : MovieState()
-        class Successful(val list: List<Movie>) : MovieState()
+class MovieDetailViewModel: ViewModel() {
+    sealed class MovieDetailState {
+        object Loading : MovieDetailState()
+        class Error(val message: String) : MovieDetailState()
+        class Successful(val movie: Movie) : MovieDetailState()
     }
 
-    val state : LiveData<MovieState>
+    val state : LiveData<MovieDetailState>
         get() = _state
-    private val _state = MutableLiveData<MovieState>()
+    private val _state = MutableLiveData<MovieDetailState>()
 
-    fun fetchData(context: Context) {
+    fun findMovie(context: Context, id: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            val movies = MovieRepository(
+            val movie = MovieRepository(
                 RemoteDataSource(
                     RetrofitBuilder
                 ),
                 LocalDataSource(
                     context
                 )
-            ).obtainMovies()
+            ).findById(id)
             withContext(Dispatchers.Main) {
-                _state.value = MovieState.Successful(movies)
+                _state.value = MovieDetailState.Successful(movie!!)
             }
         }
     }
-
 }

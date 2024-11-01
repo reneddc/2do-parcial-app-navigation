@@ -21,4 +21,7 @@ interface IMovieDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMovies(lists: List<MovieEntity>)
 
+    @Query("SELECT * FROM movies WHERE id=:id")
+    fun findById(id: String): MovieEntity
+
 }

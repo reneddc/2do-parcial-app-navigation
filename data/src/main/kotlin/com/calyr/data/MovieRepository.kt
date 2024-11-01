@@ -26,6 +26,29 @@ class MovieRepository(
                 //Registrar un log en Sentry
             }
         }
-        return localDataSource.getList()
+
+        val moviesLocal = localDataSource.getList()
+        when(moviesLocal) {
+            is NetworkResult.Success -> {
+                return moviesLocal.data
+            }
+            is NetworkResult.Error -> {
+                //Registrar un log en Sentry
+                return emptyList()
+            }
+        }
+    }
+
+    fun findById( id: String) : Movie? {
+        val movieLocal = localDataSource.findById(id)
+        when( movieLocal) {
+            is NetworkResult.Success -> {
+                return movieLocal.data
+            }
+            is NetworkResult.Error -> {
+                //Registrar un log en Sentry
+                return null
+            }
+        }
     }
 }

@@ -73,7 +73,7 @@ fun MoviesScreenContent(modifier: Modifier, onClick: (String) -> Unit) {
                     defaultElevation = 6.dp
                 ),
                 onClick = {
-                    onClick(listOfMovies[it].id)
+                    onClick(listOfMovies[it].id.toString())
                 }
             ) {
                 Text(
@@ -82,14 +82,6 @@ fun MoviesScreenContent(modifier: Modifier, onClick: (String) -> Unit) {
                         .padding(16.dp),
                     textAlign = TextAlign.Center
                 )
-                Text(
-                    text = "${listOfMovies[it].description}",
-                    modifier = Modifier
-                        .padding(10.dp),
-                    textAlign = TextAlign.Center,
-                )
-
-
             }
         }
     }
