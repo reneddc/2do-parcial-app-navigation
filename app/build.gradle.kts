@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -63,8 +65,18 @@ dependencies {
     //serialization
     implementation(libs.kotlinx.serialization.json)
 
+    //hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.navigation)
+    kapt(libs.hilt.compiler)
+
+
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":framework"))
 
+}
+
+kapt {
+    correctErrorTypes = true
 }

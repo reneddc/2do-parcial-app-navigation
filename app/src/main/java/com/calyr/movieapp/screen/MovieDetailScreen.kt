@@ -1,6 +1,7 @@
 package com.calyr.movieapp.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -60,14 +61,15 @@ fun MovieDetailScreenContent(modifier: Modifier, movieId: String) {
     var movieUI by remember { mutableStateOf(Movie(1, "", "", "")) }
 
     viewModel.findMovie(LocalContext.current, movieId)
+    val context = LocalContext.current
 
     fun updateUI(movieDetailState: MovieDetailViewModel.MovieDetailState) {
         when ( movieDetailState) {
             is MovieDetailViewModel.MovieDetailState.Error -> {
-
+                Toast.makeText(context, "Error ${movieDetailState.message}", Toast.LENGTH_SHORT).show()
             }
             is MovieDetailViewModel.MovieDetailState.Loading -> {
-
+                Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
             }
             is MovieDetailViewModel.MovieDetailState.Successful -> {
                 movieUI = movieDetailState.movie

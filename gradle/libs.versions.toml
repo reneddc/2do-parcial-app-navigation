@@ -19,6 +19,9 @@ okhttp3 = "4.11.0"
 ksp = "2.0.20-1.0.24"
 room = "2.6.1"
 
+hilt = "2.52"
+hiltNavigation = "1.2.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -58,6 +61,13 @@ room-guava = { group="androidx.room", name="room-guava", version.ref="room"}
 room-testing = { group="androidx.room", name="room-testing", version.ref="room"}
 room-paging = { group="androidx.room", name="room-paging", version.ref="room"}
 
+#hilt
+hilt = { group="com.google.dagger", name="hilt-android", version.ref="hilt"}
+hilt-compiler = { group="com.google.dagger", name = "hilt-compiler", version.ref = "hilt"}
+hilt-testing = {group= "com.google.dagger", name="hilt-android-testing", version.ref= "hilt"}
+hilt-navigation = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -66,7 +76,9 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 calyr-android-library = { id = "calyr.android.library", version = "unspecified"}
 calyr-jvm-library = { id = "calyr.jvm.library", version = "unspecified"}
 ksp = { id = "com.google.devtools.ksp", version.ref="ksp"}
-
+#hilt
+hilt = {id="com.google.dagger.hilt.android", version.ref="hilt"}
+kapt = {id="org.jetbrains.kotlin.kapt", version.ref="kotlin"}
 
 [bundles]
 networking = [ "retrofit", "retrofit-serialization", "kotlinx-serialization-json", "okhttp3"]

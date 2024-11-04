@@ -1,6 +1,7 @@
 package com.calyr.movieapp.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,7 +38,11 @@ class MovieDetailViewModel: ViewModel() {
                 )
             ).findById(id)
             withContext(Dispatchers.Main) {
-                _state.value = MovieDetailState.Successful(movie!!)
+                if ( movie == null) {
+                    _state.value = MovieDetailState.Error("No se encontro el ${id}")
+                } else {
+                    _state.value = MovieDetailState.Successful(movie)
+                }
             }
         }
     }
