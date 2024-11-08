@@ -8,47 +8,44 @@ class MovieRepository(
 ) {
 
     suspend fun obtainMovies(): List<Movie> {
-
-        //consultar al servicio web
+        // Consultar al servicio web
         val moviesRemote = remoteDataSource.fetchData()
 
-        //Verificar el estado final del consumo de API
-        when( moviesRemote) {
+        // Verificar el estado final del consumo de API
+        when (moviesRemote) {
             is NetworkResult.Success -> {
-                //eliminamos los datos de la base de datos
+                // Eliminamos los datos de la base de datos
                 localDataSource.deleteAll()
-                //Actualizar la base de datos
-                localDataSource.insertMovies(
-                    moviesRemote.data
-                )
+                // Actualizar la base de datos con los datos remotos
+                localDataSource.insertMovies(moviesRemote.data)
             }
             is NetworkResult.Error -> {
-                //Registrar un log en Sentry
+                // Registrar un log en Sentry
             }
         }
 
+        // Retornar la lista de películas desde la base de datos local
         val moviesLocal = localDataSource.getList()
-        when(moviesLocal) {
-            is NetworkResult.Success -> {
-                return moviesLocal.data
-            }
-            is NetworkResult.Error -> {
-                //Registrar un log en Sentry
-                return emptyList()
-            }
+        return when (moviesLocal) {
+            is NetworkResult.Success -> moviesLocal.data
+            is NetworkResult.Error -> emptyList() // Loguear si es necesario
         }
     }
 
-    fun findById( id: String) : Movie? {
+    // Nuevo método para obtener solo los datos locales, sin consulta remota
+    fun getLocalMovies(): List<Movie> {
+        val moviesLocal = localDataSource.getList()
+        return when (moviesLocal) {
+            is NetworkResult.Success -> moviesLocal.data
+            is NetworkResult.Error -> emptyList() // Loguear si es necesario
+        }
+    }
+
+    fun findById(id: String): Movie? {
         val movieLocal = localDataSource.findById(id)
-        when( movieLocal) {
-            is NetworkResult.Success -> {
-                return movieLocal.data
-            }
-            is NetworkResult.Error -> {
-                //Registrar un log en Sentry
-                return null
-            }
+        return when (movieLocal) {
+            is NetworkResult.Success -> movieLocal.data
+            is NetworkResult.Error -> null // Loguear si es necesario
         }
     }
 }
