@@ -14,6 +14,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,19 +25,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.calyr.domain.Movie
 import com.calyr.movieapp.viewmodel.MovieViewModel
 
 @Composable
-fun MoviesScreen( onClick : (String) -> Unit, movieViewModel: MovieViewModel) {
+fun MoviesScreen(onClick: (String) -> Unit, movieViewModel: MovieViewModel) {
+    val context = LocalContext.current
+
+    // Llama a `fetchData` automáticamente cuando la pantalla se carga
+    LaunchedEffect(Unit) {
+        movieViewModel.fetchData(context)
+    }
+
     Scaffold(
-        content = {
-            paddingValues -> MoviesScreenContent(
-            modifier = Modifier.padding(paddingValues),
-                onClick = onClick, movieViewModel = movieViewModel)
+        content = { paddingValues ->
+            MoviesScreenContent(
+                modifier = Modifier.padding(paddingValues),
+                onClick = onClick,
+                movieViewModel = movieViewModel
+            )
         }
     )
 }
@@ -47,22 +55,20 @@ fun MoviesScreenContent(modifier: Modifier, onClick: (String) -> Unit, movieView
     var listOfMovies by remember { mutableStateOf(listOf<Movie>()) }
     val context = LocalContext.current
 
-    //movieViewModel.fetchData()
-
     val movieState by movieViewModel.state.collectAsStateWithLifecycle()
 
-    when(movieState) {
+    when (movieState) {
         is MovieViewModel.MovieState.Loading -> {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier.fillMaxSize()
             ) {
                 CircularProgressIndicator()
             }
-
         }
         is MovieViewModel.MovieState.Error -> {
-            Toast.makeText(context, "Error ${(movieState as MovieViewModel.MovieState.Error).errorMessage}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Error: ${(movieState as MovieViewModel.MovieState.Error).errorMessage}", Toast.LENGTH_SHORT).show()
         }
         is MovieViewModel.MovieState.Successful -> {
             listOfMovies = (movieState as MovieViewModel.MovieState.Successful).list
@@ -72,25 +78,24 @@ fun MoviesScreenContent(modifier: Modifier, onClick: (String) -> Unit, movieView
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Text( text = "Peliculas Populares")
+        Text(text = "Peliculas Populares", modifier = Modifier.padding(16.dp))
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = modifier) {
-            items(listOfMovies.size) {
+            modifier = modifier
+        ) {
+            items(listOfMovies.size) { index ->
                 ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                     onClick = {
-                        onClick(listOfMovies[it].id.toString())
-                    }
+                        onClick(listOfMovies[index].id.toString())
+                    },
+                    modifier = Modifier.padding(8.dp)
                 ) {
                     Text(
-                        text = "${listOfMovies[it].title}",
-                        modifier = Modifier
-                            .padding(16.dp),
+                        text = listOfMovies[index].title,
+                        modifier = Modifier.padding(16.dp),
                         textAlign = TextAlign.Center
                     )
                 }
