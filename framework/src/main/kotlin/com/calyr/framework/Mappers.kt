@@ -9,7 +9,7 @@ fun MovieRemote.toMovie(id: Int) : Movie {
         id = id,
         title = title,
         description = description,
-        posterPath = posterPath
+        posterPath = "https://image.tmdb.org/t/p/w500$posterPath"
     )
 }
 

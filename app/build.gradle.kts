@@ -75,6 +75,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":framework"))
 
+    implementation(libs.coil)
 }
 
 kapt {
